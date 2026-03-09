@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>0xTT — Security Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0a0a0c;
+      --surface:  #111115;
+      --border:   #1e1e24;
+      --muted:    #3a3a46;
+      --subtle:   #6b6b7e;
+      --text:     #c8c8d8;
+      --bright:   #eeeef4;
+      --accent:   #5b8fff;
+      --accent2:  #a78bfa;
+      --green:    #34d399;
+      --red:      #f87171;
+      --mono:     'IBM Plex Mono', monospace;
+      --sans:     'Syne', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 14px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Subtle grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 60px;
+      background: rgba(10,10,12,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--bright);
+      letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--subtle);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--bright); }
+
+    /* ── LAYOUT ── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 120px 24px 80px;
+    }
+
+    section { margin-bottom: 96px; }
+
+    /* ── SECTION HEADER ── */
+    .sec-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .sec-label span {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .sec-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .sec-title {
+      font-family: var(--sans);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--bright);
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    /* ── HERO ── */
+    #about .hero-tag {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    #about h1 {
+      font-family: var(--sans);
+      font-size: clamp(40px, 7vw, 72px);
+      font-weight: 800;
+      color: var(--bright);
+      letter-spacing: -2px;
+      line-height: 1.05;
+      margin-bottom: 24px;
+    }
+    #about h1 .dim { color: var(--muted); }
+
+    .bio {
+      max-width: 560px;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.8;
+      margin-bottom: 32px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 36px;
+    }
+    .tag {
+      padding: 4px 12px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      font-size: 11px;
+      color: var(--subtle);
+      letter-spacing: 0.05em;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    .social-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 20px;
+      font-family: var(--mono);
+      font-size: 12px;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.2s;
+      letter-spacing: 0.03em;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: 1px solid var(--accent);
+    }
+    .btn-primary:hover { background: #4a7aff; border-color: #4a7aff; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--subtle); color: var(--bright); }
+
+    /* ── CARDS ── */
+    .card-grid {
+      display: grid;
+      gap: 1px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .card-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 600px) { .card-grid.cols-2 { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--surface);
+      padding: 24px 28px;
+      text-decoration: none;
+      display: block;
+      transition: background 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover { background: #16161c; }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 2px;
+      height: 100%;
+      background: var(--accent);
+      transform: scaleY(0);
+      transition: transform 0.2s;
+      transform-origin: bottom;
+    }
+    .card:hover::before { transform: scaleY(1); }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .card-title {
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--bright);
+    }
+    .card-arrow {
+      color: var(--muted);
+      font-size: 16px;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .card:hover .card-arrow { color: var(--accent); transform: translate(2px,-2px); }
+
+    .card-desc {
+      font-size: 12.5px;
+      color: var(--subtle);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .card-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .pill {
+      font-size: 10px;
+      padding: 2px 9px;
+      border-radius: 2px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .pill-blue  { background: rgba(91,143,255,0.12); color: var(--accent); }
+    .pill-purple{ background: rgba(167,139,250,0.12); color: var(--accent2); }
+    .pill-green { background: rgba(52,211,153,0.12); color: var(--green); }
+    .pill-red   { background: rgba(248,113,113,0.12); color: var(--red); }
+
+    /* ── CERT CARDS ── */
+    .cert-list {
+      display: grid;
+      gap: 1px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .cert-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: var(--surface);
+      padding: 18px 28px;
+      text-decoration: none;
+      transition: background 0.15s;
+      color: inherit;
+    }
+    .cert-item:hover { background: #16161c; }
+
+    .cert-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .cert-badge.blue   { background: rgba(91,143,255,0.12); }
+    .cert-badge.purple { background: rgba(167,139,250,0.12); }
+    .cert-badge.green  { background: rgba(52,211,153,0.12); }
+
+    .cert-info { flex: 1; }
+    .cert-name {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--bright);
+    }
+    .cert-issuer {
+      font-size: 11px;
+      color: var(--subtle);
+      margin-top: 2px;
+    }
+    .cert-year {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── WRITEUP LIST ── */
+    .writeup-list {
+      display: grid;
+      gap: 1px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .writeup-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      padding: 16px 28px;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.15s;
+    }
+    .writeup-item:hover { background: #16161c; }
+    .writeup-left { display: flex; align-items: center; gap: 16px; }
+    .writeup-num {
+      font-size: 11px;
+      color: var(--muted);
+      width: 20px;
+      text-align: right;
+    }
+    .writeup-title {
+      font-size: 13.5px;
+      color: var(--bright);
+      transition: color 0.15s;
+    }
+    .writeup-item:hover .writeup-title { color: var(--accent); }
+    .writeup-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .writeup-date { font-size: 11px; color: var(--muted); }
+
+    /* ── WIP CARD ── */
+    .wip-section-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 28px 0 14px;
+    }
+    .wip-section-label span {
+      font-size: 11px;
+      color: #f59e0b;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .wip-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(245,158,11,0.2);
+    }
+
+    .wip-card {
+      display: flex;
+      gap: 20px;
+      background: var(--surface);
+      border: 1px solid rgba(245,158,11,0.2);
+      border-left: 2px solid #f59e0b;
+      border-radius: 6px;
+      padding: 22px 26px;
+      position: relative;
+      overflow: hidden;
+    }
+    .wip-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -55deg,
+        transparent,
+        transparent 18px,
+        rgba(245,158,11,0.025) 18px,
+        rgba(245,158,11,0.025) 36px
+      );
+      pointer-events: none;
+    }
+    .wip-badge {
+      flex-shrink: 0;
+      align-self: flex-start;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      color: #f59e0b;
+      background: rgba(245,158,11,0.1);
+      border: 1px solid rgba(245,158,11,0.25);
+      border-radius: 3px;
+      padding: 3px 8px;
+      margin-top: 2px;
+    }
+    .wip-body { flex: 1; }
+    .wip-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .wip-title {
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--bright);
+    }
+    .wip-status {
+      font-size: 11px;
+      color: #f59e0b;
+      letter-spacing: 0.06em;
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.35; }
+    }
+    .wip-desc {
+      font-size: 12.5px;
+      color: var(--subtle);
+      line-height: 1.7;
+    }
+    .wip-desc strong { color: var(--text); font-weight: 500; }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 32px 24px 48px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+    footer a { color: var(--subtle); text-decoration: none; }
+    footer a:hover { color: var(--bright); }
+
+    /* ── FADE IN ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp 0.5s forwards;
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .d1 { animation-delay: 0.05s; }
+    .d2 { animation-delay: 0.15s; }
+    .d3 { animation-delay: 0.25s; }
+    .d4 { animation-delay: 0.35s; }
+    .d5 { animation-delay: 0.45s; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#about"><span>0x</span>TT</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#certs">Certs</a></li>
+      <li><a href="#writeups">Writeups</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- ── ABOUT ── -->
+    <section id="about">
+      <p class="hero-tag fade-in d1">// security engineer</p>
+      <h1 class="fade-in d2"><span class="dim">0x</span>TT<br/><span class="dim">Omar Fattouh</span></h1>
+      <p class="bio fade-in d3">
+        Security Engineer focused on Detection Engineering, Malware Analysis, and Offensive Research.
+        I build things that find threats — and understand the threats themselves.
+        Based in Mansoura, EG.
+      </p>
+
+      <div class="tags fade-in d4">
+        <span class="tag">Detection Engineering</span>
+        <span class="tag">Malware Analysis</span>
+        <span class="tag">ELK / Wazuh</span>
+        <span class="tag">x86 Assembly</span>
+        <span class="tag">Python</span>
+        <span class="tag">MITRE ATT&CK</span>
+        <span class="tag">Sigma Rules</span>
+        <span class="tag">Incident Response</span>
+        <span class="tag">C++</span>
+        <span class="tag">linux System Administrator</span>
+      </div>
+
+      <div class="social-row fade-in d5">
+        <a class="btn btn-primary" href="https://github.com/0xTT-byte" target="_blank" rel="noopener">↗ GitHub</a>
+        <a class="btn btn-ghost" href="https://medium.com/@0xtt-byte" target="_blank" rel="noopener">Medium</a>
+        <a class="btn btn-ghost" href="https://www.youtube.com/@0xtt-byte" target="_blank" rel="noopener">YouTube</a>
+        <a class="btn btn-ghost" href="https://tryhackme.com/p/0xTT" target="_blank" rel="noopener">TryHackMe ★ Top 5%</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/omar-fattouh-a773a83b4/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-ghost" href="mailto:omarfattouh.work@gmail.com">Email</a>
+      </div>
+    </section>
+
+    <!-- ── PROJECTS ── -->
+    <section id="projects">
+      <div class="sec-label"><span>// 01 — projects</span></div>
+      <h2 class="sec-title">Portfolio</h2>
+
+      <div class="card-grid cols-2">
+
+        <a class="card" href="https://github.com/0xTT-byte/elk-sigma-detection-lab" target="_blank" rel="noopener">
+          <div class="card-top">
+            <span class="card-title">ELK Detection Lab</span>
+            <span class="card-arrow">↗</span>
+          </div>
+          <p class="card-desc">Dockerized ELK stack on Fedora Linux simulating Linux credential access (MITRE T1003). Sigma rule → Lucene → Kibana detection rule — confirmed firing.</p>
+          <div class="card-meta">
+            <span class="pill pill-blue">Detection Engineering</span>
+            <span class="pill pill-green">ELK Stack</span>
+            <span class="pill pill-purple">Docker</span>
+          </div>
+        </a>
+
+        <a class="card" target="_blank" rel="noopener" style="cursor:default; border-left: 2px solid rgba(245,158,11,0.4);">
+          <div class="card-top">
+            <span class="card-title" style="color:var(--text);">Sigma Rule Library</span>
+            <span class="wip-status">● In Progress</span>
+          </div>
+          <p class="card-desc">Custom Sigma rules mapped to MITRE ATT&CK techniques, covering credential access, lateral movement, and persistence detection scenarios.</p>
+          <div class="card-meta">
+            <span class="pill pill-blue">Sigma</span>
+            <span class="pill pill-purple">MITRE ATT&CK</span>
+          </div>
+        </a>
+
+        <a class="card" href="https://github.com/0xTT-byte/threat-intel-triage" target="_blank" rel="noopener">
+          <div class="card-top">
+            <span class="card-title">Shellcode Detector</span>
+            <span class="card-arrow">↗</span>
+          </div>
+          <p class="card-desc">Static + behavioral analysis tool targeting shellcode patterns: API hashing, process injection, and AMSI/ETW patching indicators.</p>
+          <div class="card-meta">
+            <span class="pill pill-red">Malware Analysis</span>
+            <span class="pill pill-blue">Python</span>
+            <span class="pill pill-purple">YARA</span>
+          </div>
+        </a>
+
+        <a class="card" href="https://github.com/0xTT-byte/Malware-Analysis-Reports" target="_blank" rel="noopener">
+          <div class="card-top">
+            <span class="card-title">Malware Analysis Reports</span>
+            <span class="card-arrow">↗</span>
+          </div>
+          <p class="card-desc">Public malware analysis reports covering real-world samples — static analysis, dynamic behavior, IOCs, and YARA signatures.</p>
+          <div class="card-meta">
+            <span class="pill pill-red">Malware Analysis</span>
+            <span class="pill pill-green">Reports</span>
+          </div>
+        </a>
+
+        
+
+      </div>
+
+      <!-- IN PROGRESS -->
+      <div class="wip-section-label"><span>// in progress</span></div>
+
+      <div class="wip-card">
+        <div class="wip-badge">WIP</div>
+        <div class="wip-body">
+          <div class="wip-top">
+            <span class="wip-title">Active Directory Attack &amp; Defense Lab</span>
+            <span class="wip-status">● Building</span>
+          </div>
+          <p class="wip-desc">
+            Active Directory is the primary target in corporate environments. This lab spins up a small AD environment to simulate a <strong>Kerberoasting</strong> attack end-to-end — SPN enumeration, TGS ticket extraction, offline cracking — then detects it using <strong>Wazuh</strong> with custom alert rules mapped to MITRE <strong>T1558.003</strong>.
+          </p>
+          <div class="card-meta" style="margin-top:14px;">
+            <span class="pill pill-red">Active Directory</span>
+            <span class="pill pill-purple">Kerberoasting</span>
+            <span class="pill pill-green">Wazuh</span>
+            <span class="pill pill-blue">MITRE T1558.003</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── CERTIFICATIONS ── -->
+    <section id="certs">
+      <div class="sec-label"><span>// 02 — certifications</span></div>
+      <h2 class="sec-title">Credentials</h2>
+
+      <div class="cert-list">
+
+        <a class="cert-item" href="https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-1VLWJTLWVH.pdf" target="_blank" rel="noopener">
+          <div class="cert-badge green">🛡️</div>
+          <div class="cert-info">
+            <div class="cert-name">TryHackMe Certificate — DevSecOps</div>
+            <div class="cert-issuer">TryHackMe · Top 5% Global</div>
+          </div>
+          <span class="cert-year">↗</span>
+        </a>
+
+        <a class="cert-item" href="https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-Y7RFEYK5DJ.pdf" target="_blank" rel="noopener">
+          <div class="cert-badge green">🛡️</div>
+          <div class="cert-info">
+            <div class="cert-name">TryHackMe Certificate — Security Engineer</div>
+            <div class="cert-issuer">TryHackMe · Top 5% Global</div>
+          </div>
+          <span class="cert-year">↗</span>
+        </a>
+
+        <a class="cert-item" target="_blank" rel="noopener">
+          <div class="cert-badge blue">🌐</div>
+          <div class="cert-info">
+            <div class="cert-name">CCNA — Cisco Certified Network Associate</div>
+            <div class="cert-issuer">Cisco · Course Completed</div>
+          </div>
+          <span class="cert-year">↗</span>
+        </a>
+
+        <a class="cert-item" target="_blank" rel="noopener">
+          <div class="cert-badge purple">🔒</div>
+          <div class="cert-info">
+            <div class="cert-name">CompTIA Security+</div>
+            <div class="cert-issuer">CompTIA · Course Completed</div>
+          </div>
+          <span class="cert-year">↗</span>
+        </a>
+
+        <a class="cert-item"  target="_blank" rel="noopener">
+          <div class="cert-badge green">🛡️</div>
+          <div class="cert-info">
+            <div class="cert-name">eCIR — Certified Incident Responder</div>
+            <div class="cert-issuer">eLearnSecurity · Course Completed</div>
+          </div>
+          <span class="cert-year">↗</span>
+        </a>
+
+        <a class="cert-item" target="_blank" rel="noopener">
+          <div class="cert-badge blue">⚔️</div>
+          <div class="cert-info">
+            <div class="cert-name">eJPTv1 — Junior Penetration Tester</div>
+            <div class="cert-issuer">eLearnSecurity · Course Completed</div>
+          </div>
+          <span class="cert-year">↗</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ── WRITEUPS ── -->
+    <section id="writeups">
+      <div class="sec-label"><span>// 03 — writeups</span></div>
+      <h2 class="sec-title">Research & Writeups</h2>
+
+      <div class="writeup-list">
+
+        <a class="writeup-item" href="https://medium.com/@0xtt-byte" target="_blank" rel="noopener">
+          <div class="writeup-left">
+            <span class="writeup-num">01</span>
+            <span class="writeup-title">All Writeups & Articles — Medium Blog</span>
+          </div>
+          <div class="writeup-right">
+            <span class="pill pill-blue">Medium</span>
+            <span class="writeup-date">↗</span>
+          </div>
+        </a>
+
+        <a class="writeup-item" href="https://www.youtube.com/@0xtt-byte" target="_blank" rel="noopener">
+          <div class="writeup-left">
+            <span class="writeup-num">02</span>
+            <span class="writeup-title">Video Walkthroughs & Research — YouTube</span>
+          </div>
+          <div class="writeup-right">
+            <span class="pill pill-red">YouTube</span>
+            <span class="writeup-date">↗</span>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Built by <a href="#about">0xTT</a> · Omar Fattouh · Cairo, EG &nbsp;·&nbsp; <a href="https://

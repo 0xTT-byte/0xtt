@@ -466,6 +466,89 @@
     }
     .wip-desc strong { color: var(--text); font-weight: 500; }
 
+    /* ── EXPERIENCE ── */
+    .exp-list {
+      display: grid;
+      gap: 1px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .exp-item {
+      background: var(--surface);
+      padding: 24px 28px;
+      text-decoration: none;
+      display: block;
+      color: inherit;
+      transition: background 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+    .exp-item::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 2px; height: 100%;
+      background: var(--green);
+      transform: scaleY(0);
+      transition: transform 0.2s;
+      transform-origin: bottom;
+    }
+    .exp-item:hover { background: #16161c; }
+    .exp-item:hover::before { transform: scaleY(1); }
+    .exp-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 4px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .exp-role {
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--bright);
+    }
+    .exp-period {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .exp-company {
+      font-size: 12px;
+      color: var(--green);
+      margin-bottom: 12px;
+      letter-spacing: 0.03em;
+    }
+    .exp-desc {
+      font-size: 12.5px;
+      color: var(--subtle);
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+    .exp-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .exp-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--subtle);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 3px 10px;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+      letter-spacing: 0.04em;
+    }
+    .exp-link:hover { border-color: var(--accent); color: var(--accent); }
+
     /* ── FOOTER ── */
     footer {
       position: relative;
@@ -503,6 +586,7 @@
     <a class="nav-logo" href="#about"><span>0x</span>TT</a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#certs">Certs</a></li>
       <li><a href="#writeups">Writeups</a></li>
@@ -540,13 +624,48 @@
         <a class="btn btn-ghost" href="https://www.youtube.com/@0xtt-byte" target="_blank" rel="noopener">YouTube</a>
         <a class="btn btn-ghost" href="https://tryhackme.com/p/0xTT" target="_blank" rel="noopener">TryHackMe ★ Top 5%</a>
         <a class="btn btn-ghost" href="https://www.linkedin.com/in/omar-fattouh-a773a83b4/" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="btn btn-ghost" href="mailto:omarfattouh.work@gmail.com">Email</a>
+        <a class="btn btn-ghost" href="/cdn-cgi/l/email-protection#086765697a6e697c7c677d60267f677a63486f65696164266b6765">Email</a>
+      </div>
+    </section>
+
+    <!-- ── EXPERIENCE ── -->
+    <section id="experience">
+      <div class="sec-label"><span>// 01 — experience</span></div>
+      <h2 class="sec-title">Work Experience</h2>
+
+      <div class="exp-list">
+        <div class="exp-item">
+          <div class="exp-top">
+            <span class="exp-role">SOC Analyst Intern</span>
+            <span class="exp-period">Aug 2025 — Sep 2025 · 8 weeks</span>
+          </div>
+          <div class="exp-company">EncryptEdge Labs · London, UK (Remote)</div>
+          <p class="exp-desc">
+            Completed an intensive 8-week SOC Analyst program with hands-on experience across the full analyst workflow —
+            from log management and SIEM analysis to incident categorization and threat intelligence integration.
+            Worked with the ELK stack and Wazuh for security monitoring, conducted vulnerability scanning and compliance reporting,
+            and delivered a Capstone Project on comprehensive incident response and threat detection in a real-world SOC environment.
+          </p>
+          <div class="card-meta">
+            <span class="pill pill-blue">SOC Operations</span>
+            <span class="pill pill-green">ELK Stack</span>
+            <span class="pill pill-green">Wazuh</span>
+            <span class="pill pill-purple">Incident Response</span>
+            <span class="pill pill-blue">SIEM</span>
+            <span class="pill pill-red">Threat Intelligence</span>
+          </div>
+          <div class="exp-links">
+            <a class="exp-link" href="https://raw.githubusercontent.com/0xTT-byte/0xtt/main/Certificate%20of%20Completion.pdf" target="_blank" rel="noopener">↗ Certificate of Internship</a>
+            <a class="exp-link" href="https://raw.githubusercontent.com/0xTT-byte/0xtt/main/Letter%20of%20Experience.pdf" target="_blank" rel="noopener">↗ Letter of Experience</a>
+            <a class="exp-link" href="https://raw.githubusercontent.com/0xTT-byte/0xtt/main/Letter%20of%20Recommendation.pdf" target="_blank" rel="noopener">↗ Letter of Recommendation</a>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- ── PROJECTS ── -->
     <section id="projects">
-      <div class="sec-label"><span>// 01 — projects</span></div>
+      <div class="sec-label"><span>// 02 — projects</span></div>
       <h2 class="sec-title">Portfolio</h2>
 
       <div class="card-grid cols-2">
@@ -631,10 +750,19 @@
 
     <!-- ── CERTIFICATIONS ── -->
     <section id="certs">
-      <div class="sec-label"><span>// 02 — certifications</span></div>
+      <div class="sec-label"><span>// 03 — certifications</span></div>
       <h2 class="sec-title">Credentials</h2>
 
       <div class="cert-list">
+
+        <a class="cert-item" href="https://raw.githubusercontent.com/0xTT-byte/0xtt/main/Certificate%20of%20Completion.pdf" target="_blank" rel="noopener">
+          <div class="cert-badge green">🎓</div>
+          <div class="cert-info">
+            <div class="cert-name">Certificate of Internship — Junior SOC Analyst</div>
+            <div class="cert-issuer">EncryptEdge Labs · Aug – Sep 2025</div>
+          </div>
+          <span class="cert-year">↗</span>
+        </a>
 
         <a class="cert-item" href="https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-1VLWJTLWVH.pdf" target="_blank" rel="noopener">
           <div class="cert-badge green">🛡️</div>
@@ -695,7 +823,7 @@
 
     <!-- ── WRITEUPS ── -->
     <section id="writeups">
-      <div class="sec-label"><span>// 03 — writeups</span></div>
+      <div class="sec-label"><span>// 04 — writeups</span></div>
       <h2 class="sec-title">Research & Writeups</h2>
 
       <div class="writeup-list">
@@ -728,4 +856,4 @@
   </main>
 
   <footer>
-    <p>Built by <a href="#about">0xTT</a> · Omar Fattouh · Mansoura, EG &nbsp;·&nbsp; <a href="https://
+    <p>Built by <a href="#about">0xTT</a> · Omar Fatt

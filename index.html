@@ -21,6 +21,7 @@
       --accent2:  #a78bfa;
       --green:    #34d399;
       --red:      #f87171;
+      --orange:   #f59e0b;
       --mono:     'IBM Plex Mono', monospace;
       --sans:     'Syne', sans-serif;
     }
@@ -37,7 +38,6 @@
       overflow-x: hidden;
     }
 
-    /* Subtle grid background */
     body::before {
       content: '';
       position: fixed;
@@ -206,6 +206,12 @@
       border: 1px solid var(--border);
     }
     .btn-ghost:hover { border-color: var(--subtle); color: var(--bright); }
+    .btn-cv {
+      background: rgba(52,211,153,0.1);
+      color: var(--green);
+      border: 1px solid rgba(52,211,153,0.35);
+    }
+    .btn-cv:hover { background: rgba(52,211,153,0.18); border-color: var(--green); }
 
     /* ── CARDS ── */
     .card-grid {
@@ -279,10 +285,27 @@
       letter-spacing: 0.06em;
       text-transform: uppercase;
     }
-    .pill-blue  { background: rgba(91,143,255,0.12); color: var(--accent); }
-    .pill-purple{ background: rgba(167,139,250,0.12); color: var(--accent2); }
-    .pill-green { background: rgba(52,211,153,0.12); color: var(--green); }
-    .pill-red   { background: rgba(248,113,113,0.12); color: var(--red); }
+    .pill-blue   { background: rgba(91,143,255,0.12);  color: var(--accent); }
+    .pill-purple { background: rgba(167,139,250,0.12); color: var(--accent2); }
+    .pill-green  { background: rgba(52,211,153,0.12);  color: var(--green); }
+    .pill-red    { background: rgba(248,113,113,0.12); color: var(--red); }
+    .pill-orange { background: rgba(245,158,11,0.12);  color: var(--orange); }
+
+    /* ── AUTOMATION TAG ── */
+    .auto-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 2px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(245,158,11,0.1);
+      color: var(--orange);
+      border: 1px solid rgba(245,158,11,0.2);
+      margin-bottom: 10px;
+    }
 
     /* ── CERT CARDS ── */
     .cert-list {
@@ -344,6 +367,7 @@
       border: 1px solid var(--border);
       border-radius: 6px;
       overflow: hidden;
+      margin-bottom: 24px;
     }
     .writeup-item {
       display: flex;
@@ -375,6 +399,95 @@
       gap: 14px;
     }
     .writeup-date { font-size: 11px; color: var(--muted); }
+
+    /* ── RESEARCH CARDS ── */
+    .research-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 600px) { .research-grid { grid-template-columns: 1fr; } }
+
+    .research-card {
+      background: var(--surface);
+      padding: 24px 28px;
+      text-decoration: none;
+      display: block;
+      color: inherit;
+      transition: background 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+    .research-card:hover { background: #16161c; }
+    .research-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 2px; height: 100%;
+      background: var(--red);
+      transform: scaleY(0);
+      transition: transform 0.2s;
+      transform-origin: bottom;
+    }
+    .research-card:hover::before { transform: scaleY(1); }
+
+    .research-label {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 8px;
+      opacity: 0.8;
+    }
+    .research-title {
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--bright);
+      margin-bottom: 14px;
+      transition: color 0.15s;
+    }
+    .research-card:hover .research-title { color: var(--accent); }
+
+    .exec-summary {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      background: rgba(255,255,255,0.02);
+    }
+    .exec-row {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      margin-bottom: 6px;
+      font-size: 11.5px;
+      line-height: 1.5;
+    }
+    .exec-row:last-child { margin-bottom: 0; }
+    .exec-key {
+      color: var(--accent);
+      min-width: 60px;
+      flex-shrink: 0;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding-top: 1px;
+    }
+    .exec-val { color: var(--subtle); }
+
+    .research-arrow {
+      position: absolute;
+      top: 24px; right: 24px;
+      color: var(--muted);
+      font-size: 16px;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .research-card:hover .research-arrow { color: var(--accent); transform: translate(2px,-2px); }
 
     /* ── WIP CARD ── */
     .wip-section-label {
@@ -602,7 +715,6 @@
       <p class="bio fade-in d3">
         Security Engineer focused on Detection Engineering, Malware Analysis, and Offensive Research.
         I build things that find threats — and understand the threats themselves.
-        Based in Mansoura, EG.
       </p>
 
       <div class="tags fade-in d4">
@@ -615,10 +727,17 @@
         <span class="tag">Sigma Rules</span>
         <span class="tag">Incident Response</span>
         <span class="tag">C++</span>
-        <span class="tag">linux System Administrator</span>
+        <span class="tag">Linux System Administrator</span>
+        <span class="tag">n8n</span>
+        <span class="tag">Rust</span>
+        <span class="tag">Reverse Engineering</span>
+        <span class="tag">DevSecOps</span>
+        <span class="tag">Secret Scanning</span>
+        <span class="tag">CI/CD Pipelines</span>
       </div>
 
       <div class="social-row fade-in d5">
+        <a class="btn btn-cv" href="https://raw.githubusercontent.com/0xTT-byte/0xtt/main/Omar_Fattouh_Resume.pdf" target="_blank" rel="noopener">⬇ Download CV</a>
         <a class="btn btn-primary" href="https://github.com/0xTT-byte" target="_blank" rel="noopener">↗ GitHub</a>
         <a class="btn btn-ghost" href="https://medium.com/@0xtt-byte" target="_blank" rel="noopener">Medium</a>
         <a class="btn btn-ghost" href="https://www.youtube.com/@0xtt-byte" target="_blank" rel="noopener">YouTube</a>
@@ -675,7 +794,11 @@
             <span class="card-title">ELK Detection Lab</span>
             <span class="card-arrow">↗</span>
           </div>
-          <p class="card-desc">Dockerized ELK stack on Fedora Linux simulating Linux credential access (MITRE T1003). Sigma rule → Lucene → Kibana detection rule — confirmed firing.</p>
+          <p class="card-desc">
+            Dockerized ELK stack on Fedora Linux simulating Linux credential access (MITRE T1003).
+            Endpoint logs flow Wazuh → Logstash pipeline → Elasticsearch → Kibana dashboard.
+            Sigma rule compiled to Lucene query — detection rule confirmed firing.
+          </p>
           <div class="card-meta">
             <span class="pill pill-blue">Detection Engineering</span>
             <span class="pill pill-green">ELK Stack</span>
@@ -720,7 +843,26 @@
           </div>
         </a>
 
-        
+        <!-- AUTOMATION CARD — full-width -->
+        <a class="card" target="_blank" rel="noopener" style="grid-column: 1 / -1;">
+          <div class="auto-tag">⚡ Automation</div>
+          <div class="card-top">
+            <span class="card-title">Aviation Email Classification System</span>
+            <span class="card-arrow">↗</span>
+          </div>
+          <p class="card-desc">
+            End-to-end automation pipeline for Nesma Airlines' Chief Pilot Office. Classifies incoming email across 17 airline departments using Gemini 2.0 Flash,
+            deployed as an n8n workflow on a Hetzner VPS (Docker Compose). Live Flask/MySQL dashboard at nesma.limatrix.net with daily Telegram reports —
+            zero manual triage required.
+          </p>
+          <div class="card-meta">
+            <span class="pill pill-orange">n8n</span>
+            <span class="pill pill-blue">Gemini AI</span>
+            <span class="pill pill-green">Flask</span>
+            <span class="pill pill-purple">Docker</span>
+            <span class="pill pill-blue">Automation</span>
+          </div>
+        </a>
 
       </div>
 
@@ -731,17 +873,20 @@
         <div class="wip-badge">WIP</div>
         <div class="wip-body">
           <div class="wip-top">
-            <span class="wip-title">Active Directory Attack &amp; Defense Lab</span>
+            <span class="wip-title">Secret Scanner</span>
             <span class="wip-status">● Building</span>
           </div>
           <p class="wip-desc">
-            Active Directory is the primary target in corporate environments. This lab spins up a small AD environment to simulate a <strong>Kerberoasting</strong> attack end-to-end — SPN enumeration, TGS ticket extraction, offline cracking — then detects it using <strong>Wazuh</strong> with custom alert rules mapped to MITRE <strong>T1558.003</strong>.
+            Hardcoded secrets in source code remain one of the most common and dangerous misconfigurations in real-world deployments.
+            This tool scans codebases and git histories for exposed credentials — <strong>API keys, tokens, connection strings, private keys</strong> —
+            using a combination of <strong>regex pattern libraries</strong> and <strong>entropy analysis</strong> to surface high-confidence findings.
+            Designed for both pre-commit hooks and CI/CD pipeline integration.
           </p>
           <div class="card-meta" style="margin-top:14px;">
-            <span class="pill pill-red">Active Directory</span>
-            <span class="pill pill-purple">Kerberoasting</span>
-            <span class="pill pill-green">Wazuh</span>
-            <span class="pill pill-blue">MITRE T1558.003</span>
+            <span class="pill pill-red">AppSec</span>
+            <span class="pill pill-blue">Python</span>
+            <span class="pill pill-purple">Entropy Analysis</span>
+            <span class="pill pill-green">DevSecOps</span>
           </div>
         </div>
       </div>
@@ -800,7 +945,7 @@
           <span class="cert-year">↗</span>
         </a>
 
-        <a class="cert-item"  target="_blank" rel="noopener">
+        <a class="cert-item" target="_blank" rel="noopener">
           <div class="cert-badge green">🛡️</div>
           <div class="cert-info">
             <div class="cert-name">eCIR — Certified Incident Responder</div>
@@ -824,14 +969,69 @@
     <!-- ── WRITEUPS ── -->
     <section id="writeups">
       <div class="sec-label"><span>// 04 — writeups</span></div>
-      <h2 class="sec-title">Research & Writeups</h2>
+      <h2 class="sec-title">Research &amp; Writeups</h2>
 
+      <!-- Featured Research Cards -->
+      <div class="research-grid">
+
+        <a class="research-card" href="https://github.com/0xTT-byte/Malware-Analysis-Reports/blob/main/README.md" target="_blank" rel="noopener">
+          <span class="research-arrow">↗</span>
+          <div class="research-label">Malware Analysis</div>
+          <div class="research-title">Agent Tesla — Credential Stealer Deep Dive</div>
+          <div class="exec-summary">
+            <div class="exec-row">
+              <span class="exec-key">Threat</span>
+              <span class="exec-val">Keylogger &amp; credential stealer targeting browsers, email clients, and FTP tools via spearphishing.</span>
+            </div>
+            <div class="exec-row">
+              <span class="exec-key">Detect</span>
+              <span class="exec-val">Monitor for SMTP exfil on port 587, suspicious AutoIt/PowerShell child processes, and known C2 patterns.</span>
+            </div>
+            <div class="exec-row">
+              <span class="exec-key">Mitigate</span>
+              <span class="exec-val">Block outbound SMTP from endpoints, enforce credential store protections, and deploy YARA signatures.</span>
+            </div>
+          </div>
+          <div class="card-meta">
+            <span class="pill pill-red">Malware Analysis</span>
+            <span class="pill pill-blue">YARA</span>
+            <span class="pill pill-purple">IOCs</span>
+          </div>
+        </a>
+
+        <a class="research-card" href="https://medium.com/@0xtt-byte" target="_blank" rel="noopener">
+          <span class="research-arrow">↗</span>
+          <div class="research-label">Malware Analysis</div>
+          <div class="research-title">RedLine Stealer — InfoStealer Analysis</div>
+          <div class="exec-summary">
+            <div class="exec-row">
+              <span class="exec-key">Threat</span>
+              <span class="exec-val">MaaS infostealer harvesting browser credentials, crypto wallets, and session cookies at scale.</span>
+            </div>
+            <div class="exec-row">
+              <span class="exec-key">Detect</span>
+              <span class="exec-val">Flag C2 comms to Telegram/Discord APIs, anomalous browser DB access, and .NET memory injection patterns.</span>
+            </div>
+            <div class="exec-row">
+              <span class="exec-key">Mitigate</span>
+              <span class="exec-val">Block social engineering delivery vectors, rotate credentials on detection, and monitor for MaaS panel IPs.</span>
+            </div>
+          </div>
+          <div class="card-meta">
+            <span class="pill pill-red">Malware Analysis</span>
+            <span class="pill pill-green">Static Analysis</span>
+            <span class="pill pill-purple">IOCs</span>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- Links -->
       <div class="writeup-list">
-
         <a class="writeup-item" href="https://medium.com/@0xtt-byte" target="_blank" rel="noopener">
           <div class="writeup-left">
             <span class="writeup-num">01</span>
-            <span class="writeup-title">All Writeups & Articles — Medium Blog</span>
+            <span class="writeup-title">All Writeups &amp; Articles — Medium Blog</span>
           </div>
           <div class="writeup-right">
             <span class="pill pill-blue">Medium</span>
@@ -842,18 +1042,21 @@
         <a class="writeup-item" href="https://www.youtube.com/@0xtt-byte" target="_blank" rel="noopener">
           <div class="writeup-left">
             <span class="writeup-num">02</span>
-            <span class="writeup-title">Video Walkthroughs & Research — YouTube</span>
+            <span class="writeup-title">Videos Walkthroughs &amp; Research — YouTube</span>
           </div>
           <div class="writeup-right">
             <span class="pill pill-red">YouTube</span>
             <span class="writeup-date">↗</span>
           </div>
         </a>
-
       </div>
     </section>
 
   </main>
 
   <footer>
-    <p>Built by <a href="#about">0xTT</a> · Omar Fattouh
+    <p>Built by <a href="#about">0xTT</a> · Omar Fattouh</p>
+  </footer>
+
+</body>
+</html>

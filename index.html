@@ -489,96 +489,6 @@
     }
     .research-card:hover .research-arrow { color: var(--accent); transform: translate(2px,-2px); }
 
-    /* ── WIP CARD ── */
-    .wip-section-label {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 28px 0 14px;
-    }
-    .wip-section-label span {
-      font-size: 11px;
-      color: #f59e0b;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-    .wip-section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: rgba(245,158,11,0.2);
-    }
-
-    .wip-card {
-      display: flex;
-      gap: 20px;
-      background: var(--surface);
-      border: 1px solid rgba(245,158,11,0.2);
-      border-left: 2px solid #f59e0b;
-      border-radius: 6px;
-      padding: 22px 26px;
-      position: relative;
-      overflow: hidden;
-    }
-    .wip-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(
-        -55deg,
-        transparent,
-        transparent 18px,
-        rgba(245,158,11,0.025) 18px,
-        rgba(245,158,11,0.025) 36px
-      );
-      pointer-events: none;
-    }
-    .wip-badge {
-      flex-shrink: 0;
-      align-self: flex-start;
-      font-family: var(--mono);
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      color: #f59e0b;
-      background: rgba(245,158,11,0.1);
-      border: 1px solid rgba(245,158,11,0.25);
-      border-radius: 3px;
-      padding: 3px 8px;
-      margin-top: 2px;
-    }
-    .wip-body { flex: 1; }
-    .wip-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .wip-title {
-      font-family: var(--sans);
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--bright);
-    }
-    .wip-status {
-      font-size: 11px;
-      color: #f59e0b;
-      letter-spacing: 0.06em;
-      animation: blink 2s ease-in-out infinite;
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.35; }
-    }
-    .wip-desc {
-      font-size: 12.5px;
-      color: var(--subtle);
-      line-height: 1.7;
-    }
-    .wip-desc strong { color: var(--text); font-weight: 500; }
-
     /* ── EXPERIENCE ── */
     .exp-list {
       display: grid;
@@ -810,7 +720,7 @@
         <a class="card" target="_blank" rel="noopener" style="cursor:default; border-left: 2px solid rgba(245,158,11,0.4);">
           <div class="card-top">
             <span class="card-title" style="color:var(--text);">Sigma Rule Library</span>
-            <span class="wip-status">● In Progress</span>
+            <span class="wip-status" style="font-size:11px;color:#f59e0b;letter-spacing:0.06em;animation:blink 2s ease-in-out infinite;">● In Progress</span>
           </div>
           <p class="card-desc">Custom Sigma rules mapped to MITRE ATT&CK techniques, covering credential access, lateral movement, and persistence detection scenarios.</p>
           <div class="card-meta">
@@ -864,31 +774,26 @@
           </div>
         </a>
 
-      </div>
-
-      <!-- IN PROGRESS -->
-      <div class="wip-section-label"><span>// in progress</span></div>
-
-      <div class="wip-card">
-        <div class="wip-badge">WIP</div>
-        <div class="wip-body">
-          <div class="wip-top">
-            <span class="wip-title">Secret Scanner</span>
-            <span class="wip-status">● Building</span>
+        <!-- SECRET SCANNER — full-width, shipped -->
+        <a class="card" href="https://github.com/0xTT-byte/Secrets_Scanner_Pipeline" target="_blank" rel="noopener" style="grid-column: 1 / -1;">
+          <div class="card-top">
+            <span class="card-title">Secret Scanner Pipeline</span>
+            <span class="card-arrow">↗</span>
           </div>
-          <p class="wip-desc">
-            Hardcoded secrets in source code remain one of the most common and dangerous misconfigurations in real-world deployments.
-            This tool scans codebases and git histories for exposed credentials — <strong>API keys, tokens, connection strings, private keys</strong> —
-            using a combination of <strong>regex pattern libraries</strong> and <strong>entropy analysis</strong> to surface high-confidence findings.
+          <p class="card-desc">
+            Scans codebases and git histories for hardcoded credentials — API keys, tokens, connection strings, and private keys —
+            using regex pattern libraries combined with entropy analysis to surface high-confidence findings.
             Designed for both pre-commit hooks and CI/CD pipeline integration.
           </p>
-          <div class="card-meta" style="margin-top:14px;">
+          <div class="card-meta">
             <span class="pill pill-red">AppSec</span>
             <span class="pill pill-blue">Python</span>
             <span class="pill pill-purple">Entropy Analysis</span>
             <span class="pill pill-green">DevSecOps</span>
+            <span class="pill pill-orange">CI/CD</span>
           </div>
-        </div>
+        </a>
+
       </div>
 
     </section>
@@ -1057,6 +962,13 @@
   <footer>
     <p>Built by <a href="#about">0xTT</a> · Omar Fattouh</p>
   </footer>
+
+  <style>
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.35; }
+    }
+  </style>
 
 </body>
 </html>
